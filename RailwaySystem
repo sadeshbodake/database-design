@@ -1,0 +1,61 @@
+Passanger
+  -id
+  -name
+  -gender
+  -phone
+  -email
+  -journey_date
+  -seats_reserved
+
+Ticket
+  -id
+  -passager_id(foregin key)
+  -ticket_price
+  -total_price
+
+Train
+  -id
+  -source
+  -destination
+  -depature_time
+  -departure_date
+  -arrival_time
+  -depature_time
+  -available_seats
+  -total_seats
+
+Station
+  -id
+  -station_name
+  -station_city
+  -city_code
+
+Train_station
+  -id
+  -train_id(foregin_key Train)
+  -station_id(foregin_key Station)
+  -date_in
+  -date_out
+  -time_in
+  -time_out
+
+Route
+  -id
+  -station_id(foregin_key Station)
+  -route_no
+  -route-name
+
+Food_vendor
+  -id
+  -vendor_name
+  -vendor_licence
+
+coolie
+  -id
+  -station_id(foregin_key Station)
+  -licence_no
+  -name
+  -age
+  -joining_date
+  -address
+
