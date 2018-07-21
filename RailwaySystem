@@ -1,34 +1,37 @@
-Passanger
-  -id
-  -name
-  -gender
-  -phone
-  -email
-  -journey_date
-  -seats_reserved
-
-Ticket
-  -id
-  -passager_id(foregin key)
-  -ticket_price
-  -total_price
-
 Train
   -id
   -source
   -destination
-  -depature_time
-  -departure_date
-  -arrival_time
-  -depature_time
+  -departure_time/date
+  -arrival_time/date
+  -train_type
+  -distance(in km)
+  -run-days
+  -late(in min)
+  -speed
+
+Route
+  -id
+  -train_id(foreign key)
+  -route_no
+  -route-name
+
+Bogie
+  -id
+  -number
+  -class_name
+  -Train_id(foregin_key)
   -available_seats
-  -total_seats
+  -Reserved_seats
+  -capacity
 
 Station
   -id
-  -station_name
-  -station_city
+  -name
+  -code
+  -city
   -city_code
+  -Address
 
 Train_station
   -id
@@ -38,17 +41,42 @@ Train_station
   -date_out
   -time_in
   -time_out
+  -wait on platform(in time)
 
-Route
+TicketCounter
   -id
-  -station_id(foregin_key Station)
-  -route_no
-  -route-name
+  -counter_no
+  -station_id(foreign key)
+
+TicketPrice
+  -id
+  -station_id(foregin key from station)
+  -destination
+  -FullTicketPrice
+  -HalfTicketPrice
+
+Ticket
+  -id
+  -ticketCounter_id(foreginkey)
+  -no_of_persons
+  -no_of_childrens
+  -date_of_journey
+  -class
+  -station_from
+  -station_to
+  -payment_method
+  -ticket_price
+  -total
 
 Food_vendor
   -id
   -vendor_name
   -vendor_licence
+
+Station_Vendor
+  -id
+  -vendor_id(foregin key)
+  -station_id(foregin key)
 
 coolie
   -id
@@ -58,4 +86,43 @@ coolie
   -age
   -joining_date
   -address
+
+
+
+1
+
+o/p:-
+railwaysystem=# select train.name,count(train.name) as train_count from  train Inner JOIN train_station ON train.id=train_station.train_id group by(train.name),trunc(EXTRACT(hour from departure_time)/6)
+;
+        name         | train_count
+---------------------+-------------
+ PRAGATI EXPRESS     |           1
+ DECCAN-EXPRESS      |           2
+ MUMBAI-PUNE EXPRESS |           1
+(3 rows)
+
+
+
+2.
+
+
+railwaysystem=# select station_to from(select count(station_to) as station_count,station_to from ticket group by station_to)t where station_count>2;
+ station_to
+------------
+ LONAVALA
+(1 row)
+
+
+3.
+
+railwaysystem=# select sum(total) as profit from ticket group by trunc(EXTRACT(month from time_date));
+ profit
+--------
+     58
+     10
+     51
+     10
+(4 rows)
+
+
 
