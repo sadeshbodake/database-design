@@ -91,16 +91,12 @@ coolie
 
 1
 
-o/p:-
-railwaysystem=# select train.name,count(train.name) as train_count from  train Inner JOIN train_station ON train.id=train_station.train_id group by(train.name),trunc(EXTRACT(hour from departure_time)/6)
-;
-        name         | train_count
----------------------+-------------
- PRAGATI EXPRESS     |           1
- DECCAN-EXPRESS      |           2
- MUMBAI-PUNE EXPRESS |           1
-(3 rows)
-
+railwaysystem=# select date_trunc('hour', departure_time - interval '1 hour') as start_time,count(train_id) as hourly_train_count from train_station group by start_time;
+     start_time      | hourly_train_count
+---------------------+--------------------
+ 2018-07-21 00:00:00 |                  3
+ 2018-07-21 01:00:00 |                  1
+(2 rows)
 
 
 2.
@@ -115,13 +111,13 @@ railwaysystem=# select station_to from(select count(station_to) as station_count
 
 3.
 
-railwaysystem=# select sum(total) as profit from ticket group by trunc(EXTRACT(month from time_date));
- profit
---------
-     58
-     10
-     51
-     10
+railwaysystem=# select to_char(time_date,'Mon') as mon,sum(total) as sale from ticket group by 1;
+ mon | sale
+-----+------
+ Mar |   10
+ Apr |   51
+ Jul |   10
+ May |   58
 (4 rows)
 
 
